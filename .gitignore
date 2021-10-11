@@ -1,0 +1,5 @@
+.terraform
+.idea
+.openshift_install.log
+terraform.*
+.terraform.lock.hcl

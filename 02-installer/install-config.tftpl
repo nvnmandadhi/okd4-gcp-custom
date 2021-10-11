@@ -1,0 +1,58 @@
+apiVersion: v1
+baseDomain: "${base_domain}"
+metadata:
+  name: ${cluster_name}
+credentialsMode: Manual
+featureSet: TechPreviewNoUpgrade
+compute:
+- architecture: amd64
+  hyperthreading: Enabled
+  name: worker
+  platform:
+    gcp:
+      tags:
+      - "master"
+  replicas: ${num_worker_nodes}
+controlPlane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  platform:
+    gcp:
+      serviceAccount: ${control_plane_sa_email}
+      tags:
+      - "worker"
+  replicas: ${num_master_nodes}
+networking:
+  clusterNetwork:
+    - cidr: ${pods_cidr}
+      hostPrefix: 23
+  serviceNetwork:
+    - ${services_cidr}
+  machineNetwork:
+    - cidr: ${machines_cidr}
+    - cidr: ${control_plane_cidr}
+  networkType: OVNKubernetes
+platform:
+  gcp:
+    projectID: "${project_id}"
+    networkProjectID: ${shared_vpc_host_project_id}
+    network: ${network}
+    region: ${region}
+    controlPlaneSubnet: ${control_plane_subnet_name}
+    computeSubnet: ${compute_subnet_name}
+    defaultMachinePlatform:
+       secureBoot: Enabled
+       onHostMaintenance: Terminate
+       osDisk:
+        diskType: ${disk_type}
+        encryptionKey:
+          kmsKeyServiceAccount: ${kms_key_sa_email}
+          kmsKey:
+            name: ${kms_key_name}
+            keyRing: ${kms_key_ring}
+            location: ${kms_key_location}
+            projectID: ${kms_key_project_id}
+publish: ${publish}
+pullSecret: '{"auths":{"fake":{"auth":"aWQ6cGFzcwo="}}}'
+sshKey: "${ssh_key_content}"
