@@ -1,0 +1,10 @@
+base_domain           = "<domain>>"
+cluster_name          = "okd"
+region                = "us-central1"
+zones                 = ["us-central1-a", "us-central1-b", "us-central1-c"]
+base_domain_zone_name = "<domain>"
+vpc_cidr              = "10.0.0.0/16"
+master_subnet_cidr    = "10.0.0.0/17"
+worker_subnet_cidr    = "10.0.128.0/17"
+project               = "<project_id>"
+ssh_public_key_location = "<ssh_public_key_location>"
